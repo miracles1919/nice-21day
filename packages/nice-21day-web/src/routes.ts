@@ -31,7 +31,7 @@ export default [
       },
       {
         name: '编辑管理员',
-        path: '/admin/update',
+        path: '/admin/update/:id',
         component: './Admin/Update',
       },
     ],

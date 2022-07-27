@@ -34,11 +34,14 @@ interface tableType {
   name: string;
   type: string;
   progress: number;
-  nums: string;
+  period: string;
   time: string;
-  isMoney: string;
-  status: string;
-  desc: string;
+  fee: string;
+  state: string;
+  description: string;
+  start_time: string;
+  end_time: string;
+  deleted: string;
 }
 
 const columns: ColumnsType<tableType> = [
@@ -59,8 +62,8 @@ const columns: ColumnsType<tableType> = [
   },
   {
     title: '期数',
-    key: 'nums',
-    dataIndex: 'nums',
+    key: 'period',
+    dataIndex: 'period',
   },
   {
     title: '起止时间',
@@ -69,25 +72,25 @@ const columns: ColumnsType<tableType> = [
   },
   {
     title: '是否需要押金',
-    key: 'isMoney',
-    dataIndex: 'isMoney',
+    key: 'fee',
+    dataIndex: 'fee',
   },
   {
     title: '状态',
-    key: 'status',
-    dataIndex: 'status',
+    key: 'state',
+    dataIndex: 'state',
   },
   {
     title: '备注信息',
-    key: 'desc',
-    dataIndex: 'desc',
+    key: 'description',
+    dataIndex: 'description',
   },
   {
     title: '操作',
     key: 'action',
-    render: (_, record) => (
+    render: () => (
       <Space size="middle">
-        <a>启用 {record.name}</a>
+        <a>启用</a>
         <a>禁用</a>
         <a>编辑</a>
         <a>删除</a>
@@ -100,7 +103,15 @@ const CampList: React.FC = () => {
   const [campData, setCampData] = useState<tableType[]>([]);
   useEffect(() => {
     queryAllCampList({ page: 1, size: 10 }).then((res) => {
-      setCampData(res.rows);
+      let list = res.rows;
+      // res.rows.filter((item: tableType) => {
+      //   return +item.deleted === 0;
+      // });
+
+      list.forEach((item: tableType) => {
+        item.time = `${item.start_time} - ${item.end_time}`;
+      });
+      setCampData(list);
     });
   }, []);
 

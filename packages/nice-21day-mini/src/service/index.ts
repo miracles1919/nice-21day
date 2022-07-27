@@ -6,7 +6,7 @@ interceptors.forEach((interceptorItem) => Taro.addInterceptor(interceptorItem));
 
 class GoodTeenRequest {
   dealRequest(params, method) {
-    let { url, data, contentType } = params;
+    let { url, data } = params;
     const option = {
       url: getUrl(url), //地址
       data: data, //传参
@@ -14,23 +14,23 @@ class GoodTeenRequest {
       timeout: 2000, // 超时时间
       header: {
         //请求头
-        'content-type': contentType || 'application/json;charset=UTF-8',
-        Authorization: Taro.getStorageSync('nice_21day_access_token'),
+        'content-type': 'application/json;charset=UTF-8',
+        'Authorization': Taro.getStorageSync('nice_21day_access_token'),
       },
     };
     return Taro.request(option);
   }
 
-  get(url, data) {
+  get(url: string, data) {
     let option = { url, data };
     return this.dealRequest(option, 'GET');
   }
 
-  post(url, data) {
+  post(url: string, data) {
     let params = { url, data };
     return this.dealRequest(params, 'POST');
   }
-  delete(url, data = '') {
+  delete(url: string, data) {
     let option = { url, data };
     return this.dealRequest(option, 'DELETE');
   }

@@ -16,20 +16,19 @@ const customInterceptor = (chain) => {
     .then((res) => {
       Taro.hideLoading();
       if (res.statusCode == SUCCESS) {
-        if (res.data.code === 0) {
-          return res.data;
-        } else {
-          return Promise.reject(res.data);
-        }
+        return res.data;
       }
       if (res.statusCode == FAIL) {
         return Promise.reject({ desc: '接口请求报错' });
-      } else if (res.statusCode === RELOGIN) {
+      } else if (res.statusCode == RELOGIN) {
         Taro.setStorageSync('nice_21day_access_token', '');
         pageToLogin();
         return Promise.reject({ desc: '请重新登录' });
       } else if (res.statusCode == SUCCESSLOGIN) {
-        Taro.setStorageSync('nice_21day_access_token', res.data?.access_token);
+        Taro.setStorageSync(
+          'nice_21day_access_token',
+          `Bearer  ${res.data?.access_token}`,
+        );
         pageToBeforeLogin();
       }
     })

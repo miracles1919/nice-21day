@@ -7,8 +7,8 @@ export const getUrl = (url) => {
   let finalurl = '';
   if (process.env.NODE_ENV === 'development') {
     //开发环境 - 根据请求不同返回不同的BASE_URL
-    // BASE_URL = 'http://127.0.0.1:7001/api/v1'+ url
-    finalurl = 'http://192.168.2.3:7001/api/v1' + url;
+    finalurl = 'http://127.0.0.1:7001/api/v1'+ url
+    // finalurl = 'http://192.168.2.3:7001/api/v1' + url;
   } else {
     // 生产环境
     finalurl = 'http://192.168.2.3:7001/api/v1' + url;

@@ -204,7 +204,7 @@ const Attendance: React.FC = () => {
         const res = await queryAttendanceListAPI({
           ...rest,
           size: pageSize!,
-          number: current!,
+          page: current!,
         });
         return {
           data: res.rows,

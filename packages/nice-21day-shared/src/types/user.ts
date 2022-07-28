@@ -1,4 +1,4 @@
-import { EState } from './global';
+import { EState, IPageParams } from './global';
 
 export interface IUser {
   id: string;
@@ -11,4 +11,12 @@ export interface IUser {
   updated_at?: string;
   deleted_at?: boolean;
   deleted: boolean;
+}
+
+/**
+ * 注册用户查询参数
+ */
+export interface IQueryUserParams extends IPageParams {
+  nick_name?: string;
+  state?: EState;
 }

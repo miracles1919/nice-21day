@@ -37,33 +37,15 @@ export default [
     ],
   },
   {
-    name: '打卡记录',
-    path: '/attendance',
-    icon: 'solution',
-    component: './Attendance',
+    name: '注册用户',
+    path: '/user',
+    icon: 'team',
+    component: './User',
   },
   {
-    name: '训练营成员',
-    path: '/member',
-    icon: 'skin',
-    component: './Member',
-  },
-  {
-    name: '积分变更记录',
-    path: '/integral',
-    icon: 'solution',
-    component: './Integral',
-  },
-  {
-    name: '证书',
-    path: '/certificate',
-    icon: 'solution',
-    component: './Certificate',
-  },
-  {
-    name: '训练营管理',
+    name: '训练营',
     path: '/campList',
-    icon: 'solution',
+    icon: 'project',
     hideChildrenInMenu: true,
     routes: [
       {
@@ -77,5 +59,30 @@ export default [
         component: './campList/campConfig',
       },
     ],
+  },
+  {
+    name: '训练营成员',
+    path: '/member',
+    icon: 'solution',
+    component: './Member',
+  },
+  {
+    name: '打卡记录',
+    path: '/attendance',
+    icon: 'profile',
+    component: './Attendance',
+  },
+  
+  {
+    name: '积分变更记录',
+    path: '/integral',
+    icon: 'payCircle',
+    component: './Integral',
+  },
+  {
+    name: '证书',
+    path: '/certificate',
+    icon: 'idcard',
+    component: './Certificate',
   },
 ] as MenuDataItem[];

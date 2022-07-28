@@ -30,6 +30,7 @@ export const layout = (): BasicLayoutProps => {
         },
       });
     },
+    disableContentMargin: false,
   };
 };
 
@@ -55,8 +56,18 @@ export const request: RequestConfig = {
       // 禁止缓存
       const url = config.url.concat(`?t=${+new Date()}`);
 
+      // 忽略为空字符串的参数，防止后端接口报错
+      const params = config.params || {};
+      Object.keys(params).forEach((key) => {
+        const val = params[key];
+        if (val === '' || val === undefined || val === null) {
+          delete params[key];
+        }
+      });
+
       return {
         ...config,
+        params,
         url,
         headers: {
           ...config.headers,

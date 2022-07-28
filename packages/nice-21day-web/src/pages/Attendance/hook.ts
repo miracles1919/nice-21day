@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { ActionType } from '@ant-design/pro-components';
 import { IUser, ITraining, EAttendanceLogAuditState } from '@nice-21day/shared';
 import {
-  queryAllNickNameList,
+  queryAllUsers,
   queryAllTrainingNameList,
   changeAttendanceAuditStateAPI,
 } from '../../services';
@@ -14,7 +14,7 @@ export const useGetNickNameList = () => {
   const getNickNameList = async (nick_name: string) => {
     try {
       setLoading(true);
-      const res: IUser[] = await queryAllNickNameList(nick_name);
+      const res: IUser[] = await queryAllUsers(nick_name);
       if (res.length) setNickNameList(res ?? []);
     } catch (err) {
       message.error('请求错误', 2);

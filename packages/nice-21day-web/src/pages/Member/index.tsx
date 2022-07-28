@@ -248,7 +248,7 @@ const Member: React.FC = () => {
                     const res = await queryUsersList({
                         ...rest,
                         size: pageSize!,
-                        number: current!,
+                        page: current!,
                     });
                     return {
                         data: res?.rows,

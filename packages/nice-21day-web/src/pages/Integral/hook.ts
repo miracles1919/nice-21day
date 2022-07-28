@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { message } from 'antd';
 import { IUser, ITraining } from '@nice-21day/shared';
 import {
-  queryAllNickNameList,
+  queryAllUsers,
   queryAllTrainingNameList
 } from '../../services';
 
@@ -12,7 +12,7 @@ export const useGetNickNameList = () => {
   const getNickNameList = async (nick_name: string) => {
     try {
       setLoading(true);
-      const res: IUser[] = await queryAllNickNameList(nick_name);
+      const res: IUser[] = await queryAllUsers(nick_name);
       if (res.length) setNickNameList(res ?? []);
     } catch (err) {
       message.error('请求错误', 2);

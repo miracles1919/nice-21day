@@ -20,7 +20,7 @@ export enum EBooleanString {
  */
 export interface IPageParams {
   /** 从 1 开始 */
-  number: number;
+  page: number;
   size: number;
 }
 

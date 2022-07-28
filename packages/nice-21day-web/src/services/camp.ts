@@ -10,3 +10,10 @@ import { CampsList } from '@nice-21day/shared';
       params,
     });
   };
+
+  export const addTraining = async (params: any) => {
+    return await request('/trainings', {
+      method: 'POST',
+      data: { ...params },
+    })
+  }

@@ -6,38 +6,46 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 import React from 'react';
 import styles from './index.less';
-
+import { addTraining } from '@/services/camp';
 const CreateAdmin: React.FC = () => {
   const [isNeed, setNeed] = useState(false);
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const [form] = Form.useForm();
+  const onFinish = (values: any) => {
+    const time = values['time'];
+    const params = {
+      ...values,
+      start_time: time[0].format('YYYY-MM-DD'),
+      end_time: time[1].format('YYYY-MM-DD'),
+    };
+    addTraining(params).then((res) => {
+      console.log(res);
+    });
+    // console.log('Success:', params);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const typeChange = (value: string) => {
+    form.setFieldsValue({ type: value });
   };
-  const onChange = (
+  const progressChange = (value: string) => {
+    form.setFieldsValue({ progress: value });
+  };
+  const DateChoose = (
     value: DatePickerProps['value'] | RangePickerProps['value'],
     dateString: [string, string] | string,
   ) => {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
+    form.setFieldsValue({ start_time: dateString[0], end_time: dateString[1] });
   };
   const switchClick = (checked: boolean) => {
     setNeed(checked);
     console.log(`switch to ${checked}`);
   };
-  const switchState = (checked: boolean) => {
-    setNeed(checked);
-    console.log(`switch to ${checked}`);
-  };
-  const onOk = (
-    value: DatePickerProps['value'] | RangePickerProps['value'],
-  ) => {
-    console.log('onOk: ', value);
+  const changeState = (checked: boolean) => {
+    checked
+      ? form.setFieldsValue({ state: 'enable' })
+      : form.setFieldsValue({ state: 'disable' });
   };
   return (
     <div className={styles.addMain}>
@@ -48,19 +56,21 @@ const CreateAdmin: React.FC = () => {
         autoComplete="off"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
+        form={form}
+        initialValues={{ type: '21day', progress: 'registering' }}
       >
         <Form.Item label="名称" name="name">
           <Input />
         </Form.Item>
         <Form.Item label="类型" name="type">
-          <Select defaultValue="21day" onChange={handleChange}>
+          <Select defaultValue="21day" onChange={typeChange}>
             <Option value="21day">21day</Option>
             <Option value="english">英语阅读</Option>
             <Option value="sports">运动</Option>
           </Select>
         </Form.Item>
         <Form.Item label="进度" name="progress">
-          <Select defaultValue="registering" onChange={handleChange}>
+          <Select defaultValue="registering" onChange={progressChange}>
             <Option value="registering">报名中</Option>
             <Option value="processing">进行中</Option>
             <Option value="finished">已结束</Option>
@@ -73,15 +83,7 @@ const CreateAdmin: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item label="起止时间" name="time">
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              showTime={{ format: 'HH:mm' }}
-              format="YYYY-MM-DD HH:mm"
-              onChange={onChange}
-              onOk={onOk}
-              style={{ width: '550px' }}
-            />
-          </Space>
+          <RangePicker onChange={DateChoose} style={{ width: '550px' }} />
         </Form.Item>
         <Form.Item label="是否需要押金" name="isNeed">
           <Switch onChange={switchClick} />
@@ -94,14 +96,14 @@ const CreateAdmin: React.FC = () => {
           ''
         )}
         <Form.Item label="状态" name="state">
-          <Switch onChange={switchState} />
+          <Switch onChange={changeState} />
         </Form.Item>
         <Form.Item label="备注信息" name="description">
           <TextArea rows={4} />
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
+        <Form.Item className={styles.btnPart}>
+          <Button type="primary" htmlType="submit" className={styles.btn}>
             保存
           </Button>
           <Button type="primary" onClick={() => history.back()}>

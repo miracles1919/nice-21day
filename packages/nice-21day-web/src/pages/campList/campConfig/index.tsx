@@ -1,4 +1,4 @@
-import { Button, Select, Form, Input, DatePicker, Space, Switch } from 'antd';
+import { Button, Select, Form, Input, DatePicker, message, Switch } from 'antd';
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
 import { useMemo, useState, useEffect } from 'react';
 const { Option } = Select;
@@ -18,7 +18,8 @@ const CreateAdmin: React.FC = () => {
       end_time: time[1].format('YYYY-MM-DD'),
     };
     addTraining(params).then((res) => {
-      console.log(res);
+      message.success('添加成功~');
+      history.back();
     });
     // console.log('Success:', params);
   };
@@ -83,7 +84,7 @@ const CreateAdmin: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item label="起止时间" name="time">
-          <RangePicker onChange={DateChoose} style={{ width: '550px' }} />
+          <RangePicker onChange={DateChoose} style={{ width: '300px' }} />
         </Form.Item>
         <Form.Item label="是否需要押金" name="isNeed">
           <Switch onChange={switchClick} />

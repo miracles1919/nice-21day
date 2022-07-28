@@ -20,8 +20,5 @@
   "gitHooks": {
     "pre-commit": "lint-staged",
     "commit-msg": "node scripts/verifyCommit.js"
-  },
-  "dependencies": {
-    "umi-request": "^1.4.0"
   }
 }

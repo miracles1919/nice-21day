@@ -15,7 +15,8 @@
     "@nice-21day/shared": "workspace:^1.0.0",
     "@umijs/max": "^4.0.6",
     "antd": "^4.21.6",
-    "html2canvas": "^1.4.1"
+    "html2canvas": "^1.4.1",
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

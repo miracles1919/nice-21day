@@ -1,7 +1,7 @@
+import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
 import { queryUsers } from '@/services';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { EState, IUser } from '@nice-21day/shared';
-import { history } from '@umijs/max';
 import { Avatar, Button, Modal, Space } from 'antd';
 import React, { useRef } from 'react';
 
@@ -89,13 +89,11 @@ const User: React.FC = () => {
 
   return (
     <ProTable<IUser>
-      actionRef={tableRef}
+      headerTitle="注册用户列表"
       rowKey="id"
-      size="small"
-      bordered
-      search={{
-        span: 6,
-      }}
+      actionRef={tableRef}
+      columns={columns}
+      {...PRO_TABLE_DEFAULT_CONFIG}
       request={async ({ pageSize, current, ...rest }) => {
         const res = await queryUsers({
           ...rest,
@@ -108,8 +106,6 @@ const User: React.FC = () => {
           success: true,
         };
       }}
-      columns={columns}
-      headerTitle="注册用户列表"
     />
   );
 };

@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { IUser, ITraining } from '@nice-21day/shared';
 import {
   queryAllUsers,
-  queryAllTrainingNameList
+  queryAllTrainingList
 } from '../../services';
 
 export const useGetNickNameList = () => {
@@ -33,7 +33,7 @@ export const useGetTrainingkNameList = () => {
   const getTrainingNameList = async (name: string) => {
     try {
       setLoading(true);
-      const res: ITraining[] = await queryAllTrainingNameList(name);
+      const res: ITraining[] = await queryAllTrainingList(name);
       if (res.length) setTrainingNameList(res ?? []);
     } catch (err) {
       message.error('请求错误', 2);

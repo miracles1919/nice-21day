@@ -16,7 +16,9 @@ const Attendance: React.FC = () => {
     id: string,
     state: EAttendanceLogAuditState,
   ) => {
-    changeAttendanceAuditStateAPI(id, state);
+    changeAttendanceAuditStateAPI(id, state).then(() => {
+      actionRef.current?.reload();
+    });
   };
 
   const columns: ProColumns<IAttendanceLog>[] = [

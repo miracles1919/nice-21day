@@ -1,8 +1,9 @@
+import { UserInfo } from '@/components/UserInfo';
 import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
 import { queryUsers } from '@/services';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { EState, IUser } from '@nice-21day/shared';
-import { Avatar, Button, Modal, Space } from 'antd';
+import { Button, Modal, Space } from 'antd';
 import React, { useRef } from 'react';
 
 const User: React.FC = () => {
@@ -17,12 +18,7 @@ const User: React.FC = () => {
       title: '用户',
       dataIndex: 'nick_name',
       renderText: (text, record) => {
-        return (
-          <Space size="small">
-            <Avatar src={record.avatar_url}></Avatar>
-            {record.nick_name}
-          </Space>
-        );
+        return <UserInfo {...record} />;
       },
     },
     {

@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Popconfirm, Select, Space, Spin, Switch } from 'antd';
+import { Button, Popconfirm, Space, Switch } from 'antd';
 // 工具库
 import {
   EBooleanString,
@@ -16,12 +16,10 @@ import {
 } from '@nice-21day/shared';
 import { useRequest } from '@umijs/max';
 // service
-import {
-  changeUsersState,
-  queryAllTrainingList,
-  queryUsersList,
-} from '@/services';
+import { changeUsersState, queryUsersList } from '@/services';
 // 子组件
+import { SelectTraining } from '@/components/SelectTraining';
+import { SelectUser } from '@/components/SelectUser';
 import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
 import TasksModal from './components/TasksModal';
 
@@ -29,16 +27,6 @@ const Member: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [modalVisible, setModalVisible] = useState(false);
   const [tasksDatasource, setTasksDatasource] = useState<ITrainingTask[]>([]);
-
-  // 成员搜索
-  const {
-    data: trainingNameList = [],
-    run: trainingNameRun,
-    loading: trainingNameLoading,
-  } = useRequest(queryAllTrainingList, {
-    debounceInterval: 500,
-    manual: true,
-  });
 
   // 启用、禁用
   const { run: changeUsersStateRun } = useRequest(changeUsersState, {
@@ -50,51 +38,26 @@ const Member: React.FC = () => {
 
   const columns: ProColumns<ITrainingMember>[] = [
     {
-      title: '成员名称',
-      dataIndex: 'userName',
-      key: 'userName',
-      width: 160,
-      fixed: 'left',
-      render: (_, record) => {
-        return record.user?.nick_name || record.user_id;
-      },
+      title: '成员',
+      dataIndex: 'user_id',
+      hideInTable: true,
+      valueType: 'select',
+      renderFormItem: (_, props) => <SelectUser {...props} />,
     },
     {
       title: '训练营',
-      dataIndex: 'training',
+      dataIndex: 'training_id',
       valueType: 'select',
-      width: 100,
+      width: 120,
       render: (_, record) => {
         return record.training?.name || record.training_id;
       },
-      renderFormItem: () => {
-        return (
-          <Select
-            showSearch
-            allowClear
-            loading={trainingNameLoading}
-            onSearch={(value) => {
-              if (value) {
-                trainingNameRun(value);
-              }
-            }}
-            notFoundContent={
-              trainingNameLoading ? <Spin size="small" /> : '未查询到内容'
-            }
-          >
-            {trainingNameList.map((item: { id: string; name: string }) => (
-              <Select.Option key={item.id} value={item.name}>
-                {item.name}
-              </Select.Option>
-            ))}
-          </Select>
-        );
-      },
+      renderFormItem: (_, props) => <SelectTraining {...props} />,
     },
     {
       title: '训练营进度',
       dataIndex: 'progress',
-      width: 100,
+      width: 120,
       search: false,
       renderText: (_, record) => record.training?.progress,
       valueEnum: {
@@ -112,7 +75,7 @@ const Member: React.FC = () => {
     {
       title: '期望任务',
       dataIndex: 'tasks',
-      width: 100,
+      width: 120,
       search: false,
       ellipsis: true,
       render: (_, record) => {
@@ -131,7 +94,7 @@ const Member: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'state',
-      width: 100,
+      width: 120,
       search: false,
       render: (state, record) => {
         return (
@@ -190,14 +153,14 @@ const Member: React.FC = () => {
       title: '报名时间',
       dataIndex: 'created_at',
       valueType: 'dateTime',
-      width: 200,
+      width: 160,
       search: false,
     },
     {
       title: '操作',
       dataIndex: 'operate',
       valueType: 'option',
-      width: 200,
+      width: 180,
       search: false,
       align: 'center',
       fixed: 'right',

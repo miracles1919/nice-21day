@@ -2,24 +2,29 @@ import { EBooleanString, EState, IPageParams } from './global';
 import { ITraining } from './training';
 import { IUser } from './user';
 
+/** 训练营成员 */
 export interface ITrainingMember {
   id: string;
+  /** 用户ID */
   user_id: string;
+  /** 用户详情 */
   user?: IUser;
+  /** 训练营ID */
   training_id: string;
+  /** 训练营详情 */
   training?: ITraining;
-  description: string;
-  created_at: string;
-  updated_at: string;
+  /** 押金支付状态 */
   payment_state: ETrainingPaymentState;
+  /** 是否达标 */
   reached: EBooleanString;
+  /** 用户当前积分 */
   score: number;
+  /** 启用状态 */
   state: EState;
+  /** 用户个人目标JOSN */
   tasks: string;
-}
-
-export interface IQueryTrainingMemberParams extends IPageParams {
-  user_id?: string;
+  /** 备注信息 */
+  description: string;
 }
 
 /** 押金支付状态 */
@@ -41,3 +46,9 @@ export interface ITrainingTask {
   name: string;
   description: string;
 }
+
+export interface IQueryTrainingMemberParams
+  extends IPageParams,
+    Partial<
+      Pick<ITrainingMember, 'user_id' | 'payment_state' | 'reached' | 'state'>
+    > {}

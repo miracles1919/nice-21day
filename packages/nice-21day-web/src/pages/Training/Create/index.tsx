@@ -1,15 +1,18 @@
-import { Button, Select, Form, Input, DatePicker, message, Switch } from 'antd';
+import { createTraining } from '@/services';
+import { EState } from '@nice-21day/shared';
+import { Button, DatePicker, Form, Input, message, Select, Switch } from 'antd';
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
-import { useMemo, useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import styles from './index.less';
+
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
-import React from 'react';
-import styles from './index.less';
-import { addTraining } from '@/services/camp';
+
 const CreateAdmin: React.FC = () => {
   const [isNeed, setNeed] = useState(false);
   const [form] = Form.useForm();
+
   const onFinish = (values: any) => {
     const time = values['time'];
     const params = {
@@ -17,16 +20,13 @@ const CreateAdmin: React.FC = () => {
       start_time: time[0].format('YYYY-MM-DD'),
       end_time: time[1].format('YYYY-MM-DD'),
     };
-    addTraining(params).then((res) => {
+    createTraining(params).then((res) => {
       message.success('添加成功~');
       history.back();
     });
     // console.log('Success:', params);
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   const typeChange = (value: string) => {
     form.setFieldsValue({ type: value });
   };
@@ -44,16 +44,13 @@ const CreateAdmin: React.FC = () => {
     console.log(`switch to ${checked}`);
   };
   const changeState = (checked: boolean) => {
-    checked
-      ? form.setFieldsValue({ state: 'enable' })
-      : form.setFieldsValue({ state: 'disable' });
+    form.setFieldsValue({ state: checked ? EState.Enable : EState.Disable });
   };
   return (
     <div className={styles.addMain}>
       <Form
         name="basic"
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

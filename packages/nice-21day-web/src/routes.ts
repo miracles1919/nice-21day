@@ -19,7 +19,7 @@ export default [
     hideChildrenInMenu: true,
     routes: [
       {
-        name: '管理员',
+        name: '管理员列表',
         path: '/admin',
         icon: 'user',
         component: './Admin',
@@ -31,7 +31,7 @@ export default [
       },
       {
         name: '编辑管理员',
-        path: '/admin/update/:id',
+        path: '/admin/:id',
         component: './Admin/Update',
       },
     ],
@@ -44,40 +44,45 @@ export default [
   },
   {
     name: '训练营',
-    path: '/campList',
+    path: '/training',
     icon: 'project',
     hideChildrenInMenu: true,
     routes: [
       {
-        name: '训练营管理',
-        path: '/campList',
-        component: './campList',
+        name: '训练营列表',
+        path: '/training',
+        component: './Training',
       },
       {
-        name: '新增训练营',
-        path: '/campList/edit',
-        component: './campList/campConfig',
+        name: '新建训练营',
+        path: '/training/create',
+        component: './Training/Create',
+      },
+      {
+        name: '编辑训练营',
+        path: '/training/:id',
+        component: './Training/Update',
       },
     ],
   },
   {
     name: '训练营成员',
-    path: '/member',
+    path: '/training-member',
     icon: 'solution',
-    component: './Member',
+    component: './TrainingMember',
   },
   {
     name: '打卡记录',
-    path: '/attendance',
+    path: '/attendance-log',
     icon: 'profile',
-    component: './Attendance',
+    component: './AttendanceLog',
   },
-  
+
   {
     name: '积分变更记录',
-    path: '/integral',
+    path: '/integral-log',
     icon: 'payCircle',
-    component: './Integral',
+    component: './IntegralLog',
   },
   {
     name: '证书',

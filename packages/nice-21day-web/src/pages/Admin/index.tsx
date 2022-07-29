@@ -1,20 +1,20 @@
-import { queryAdminsList, deleteAdmin } from '@/services';
+import { deleteAdmin, queryAllAdmins } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProColumns, ProTable, ActionType } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { IAdmin } from '@nice-21day/shared';
 import { history } from '@umijs/max';
-import { Button, Space, Modal } from 'antd';
+import { Button, Modal, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 
 const Admin: React.FC = () => {
   const tableRef = useRef<ActionType>();
-  const [curListLen, setCurListLen] = useState(0)
+  const [curListLen, setCurListLen] = useState(0);
 
   const handleDeletAdmin = (id: string) => {
     deleteAdmin(id).then(() => {
-      tableRef.current?.reload()
-    })
-  }
+      tableRef.current?.reload();
+    });
+  };
   const columns: ProColumns<IAdmin>[] = [
     {
       title: '登录名',
@@ -27,35 +27,41 @@ const Admin: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'state',
+      width: 140,
     },
     {
       title: '创建时间',
       dataIndex: 'created_at',
       valueType: 'dateTime',
+      width: 200,
     },
     {
       title: '操作',
       dataIndex: 'action',
+      width: 140,
+      align: 'center',
       render: (_, item) => (
         <Space>
-          <span className='ant-btn ant-btn-link' onClick={() => history.push(`/admin/update/${item.id || ''}`)}>编辑</span>
-          {
-          curListLen !== 1
-            &&(<span className='ant-btn ant-btn-link' onClick={() =>{
-            const { id = '' } = item;
-            Modal.confirm({
-              title: `确定要删除管理员${item.nick_name}吗？`,
-              onOk: () => {
-                handleDeletAdmin(id)
-              },
-            });
-          }}>删除</span>)
-          }
+          <a onClick={() => history.push(`/admin/${item.id}`)}>编辑</a>
+          {curListLen !== 1 && (
+            <a
+              onClick={() => {
+                const { id = '' } = item;
+                Modal.confirm({
+                  title: `确定要删除管理员${item.nick_name}吗？`,
+                  onOk: () => {
+                    handleDeletAdmin(id);
+                  },
+                });
+              }}
+            >
+              删除
+            </a>
+          )}
         </Space>
       ),
     },
   ];
-
 
   return (
     <ProTable<IAdmin>
@@ -65,8 +71,8 @@ const Admin: React.FC = () => {
       bordered
       pagination={false}
       request={async () => {
-        const admins = await queryAdminsList();
-        setCurListLen(admins.length)
+        const admins = await queryAllAdmins();
+        setCurListLen(admins.length);
         return {
           success: true,
           data: admins,

@@ -16,25 +16,28 @@ import {
 } from '@nice-21day/shared';
 import { useRequest } from '@umijs/max';
 // service
-import { changeUsersState, queryUsersList } from '@/services';
+import { queryTrainingMembers, updateTrainingMemberState } from '@/services';
 // 子组件
 import { SelectTraining } from '@/components/SelectTraining';
 import { SelectUser } from '@/components/SelectUser';
 import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
 import TasksModal from './components/TasksModal';
 
-const Member: React.FC = () => {
+const TrainingMember: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [modalVisible, setModalVisible] = useState(false);
   const [tasksDatasource, setTasksDatasource] = useState<ITrainingTask[]>([]);
 
   // 启用、禁用
-  const { run: changeUsersStateRun } = useRequest(changeUsersState, {
-    manual: true,
-    onSuccess: () => {
-      actionRef?.current?.reload();
+  const { run: updateTrainingMemberStateRun } = useRequest(
+    updateTrainingMemberState,
+    {
+      manual: true,
+      onSuccess: () => {
+        actionRef?.current?.reload();
+      },
     },
-  });
+  );
 
   const columns: ProColumns<ITrainingMember>[] = [
     {
@@ -104,7 +107,7 @@ const Member: React.FC = () => {
             checked={state === EState.Enable}
             onChange={(checked: boolean) => {
               const state = checked ? EState.Enable : EState.Disable;
-              changeUsersStateRun(record.id, state);
+              updateTrainingMemberStateRun(record.id, state);
             }}
           />
         );
@@ -192,7 +195,7 @@ const Member: React.FC = () => {
         rowKey="id"
         {...PRO_TABLE_DEFAULT_CONFIG}
         request={async ({ pageSize, current, ...rest }) => {
-          const res = await queryUsersList({
+          const res = await queryTrainingMembers({
             ...rest,
             size: pageSize!,
             page: current!,
@@ -219,4 +222,4 @@ const Member: React.FC = () => {
   );
 };
 
-export default Member;
+export default TrainingMember;

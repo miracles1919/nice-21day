@@ -1,4 +1,4 @@
-import { queryAllTrainingList } from '@/services';
+import { queryAllTrainings as query } from '@/services';
 import { ITraining } from '@nice-21day/shared';
 import { useCallback, useState } from 'react';
 
@@ -8,7 +8,7 @@ export default () => {
 
   const queryAllTrainings = useCallback(() => {
     setLoading(true);
-    queryAllTrainingList()
+    query()
       .then((res) => {
         setAllTrainings(res);
       })

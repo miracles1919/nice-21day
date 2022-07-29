@@ -1,22 +1,23 @@
 import { SelectTraining } from '@/components/SelectTraining';
 import { SelectUser } from '@/components/SelectUser';
+import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
 import {
-  changeAttendanceAuditStateAPI,
-  queryAttendanceListAPI,
-} from '@/services/attendance';
+  queryAttendanceLogs,
+  updateAttendanceLogAuditState,
+} from '@/services/attendance-log';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { EAttendanceLogAuditState, IAttendanceLog } from '@nice-21day/shared';
 import { Button } from 'antd';
 import React from 'react';
 
-const Attendance: React.FC = () => {
+const AttendanceLog: React.FC = () => {
   const actionRef = React.useRef<ActionType>();
 
   const handleChangeAuditState = (
     id: string,
     state: EAttendanceLogAuditState,
   ) => {
-    changeAttendanceAuditStateAPI(id, state).then(() => {
+    updateAttendanceLogAuditState(id, state).then(() => {
       actionRef.current?.reload();
     });
   };
@@ -129,14 +130,13 @@ const Attendance: React.FC = () => {
   ];
   return (
     <ProTable<IAttendanceLog>
-      bordered
       headerTitle="打卡记录列表"
-      columns={columns}
       rowKey="id"
+      columns={columns}
       actionRef={actionRef}
-      search={{ collapsed: false }}
+      {...PRO_TABLE_DEFAULT_CONFIG}
       request={async ({ pageSize, current, ...rest }) => {
-        const res = await queryAttendanceListAPI({
+        const res = await queryAttendanceLogs({
           ...rest,
           size: pageSize!,
           page: current!,
@@ -151,4 +151,4 @@ const Attendance: React.FC = () => {
   );
 };
 
-export default Attendance;
+export default AttendanceLog;

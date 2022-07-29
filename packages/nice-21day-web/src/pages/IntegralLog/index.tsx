@@ -2,12 +2,12 @@ import { SelectTraining } from '@/components/SelectTraining';
 import { SelectUser } from '@/components/SelectUser';
 import { UserInfo } from '@/components/UserInfo';
 import { PRO_TABLE_DEFAULT_CONFIG } from '@/constants';
-import { queryIntegralListAPI } from '@/services/integral';
+import { queryIntegralLogs } from '@/services/integral-log';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
-import { EIntegralLogAuditState, IIntegralLog } from '@nice-21day/shared';
+import { EScoreLogTriggerType, IIntegralLog } from '@nice-21day/shared';
 import React from 'react';
 
-const Integral: React.FC = () => {
+const IntegralLog: React.FC = () => {
   const columns: ProColumns<IIntegralLog>[] = [
     {
       title: '成员',
@@ -58,16 +58,16 @@ const Integral: React.FC = () => {
       dataIndex: 'trigger_type',
       valueType: 'select',
       valueEnum: {
-        [EIntegralLogAuditState.Attendance]: {
+        [EScoreLogTriggerType.Attendance]: {
           text: '有效打卡',
         },
-        [EIntegralLogAuditState.InvalidAttendance]: {
+        [EScoreLogTriggerType.InvalidAttendance]: {
           text: '无效打卡',
         },
-        [EIntegralLogAuditState.Leave]: {
+        [EScoreLogTriggerType.Leave]: {
           text: '请假',
         },
-        [EIntegralLogAuditState.Absence]: {
+        [EScoreLogTriggerType.Absence]: {
           text: '缺勤',
         },
       },
@@ -93,7 +93,7 @@ const Integral: React.FC = () => {
       columns={columns}
       {...PRO_TABLE_DEFAULT_CONFIG}
       request={async ({ pageSize, current, ...rest }) => {
-        const res = await queryIntegralListAPI({
+        const res = await queryIntegralLogs({
           ...rest,
           size: pageSize!,
           page: current!,
@@ -108,4 +108,4 @@ const Integral: React.FC = () => {
   );
 };
 
-export default Integral;
+export default IntegralLog;

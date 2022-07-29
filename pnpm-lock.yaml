@@ -88,7 +88,7 @@ importers:
       '@umijs/max': ^4.0.6
       antd: ^4.21.6
       html2canvas: ^1.4.1
-      lodash: 4.17.15
+      lodash: ^4.17.21
       prettier: ^2
       prettier-plugin-organize-imports: ^2
       prettier-plugin-packagejson: ^2
@@ -101,7 +101,7 @@ importers:
       '@umijs/max': 4.0.6_n7cx2zd6ceosjdq2vcwkfx5gwq
       antd: 4.21.6_sfoxds7t5ydpegc3knd667wn6m
       html2canvas: 1.4.1
-      lodash: 4.17.15
+      lodash: 4.17.21
       umi-request: 1.4.0
     devDependencies:
       '@types/react': 18.0.14

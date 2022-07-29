@@ -30,11 +30,20 @@ export interface IPageFactory<T> extends IPageParams {
   total: number;
 }
 
+/** 当前登录人 */
 export interface ICurentUser {
   id: string;
   login_name: string;
   nick_name: string;
+  /** 角色 */
   role: 'admin' | 'user';
   avatar?: string;
   wechat_openid?: string;
+}
+
+export interface ICommonFields {
+  deleted?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: boolean;
 }
